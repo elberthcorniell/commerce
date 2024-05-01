@@ -80,6 +80,7 @@ export type ProductVariant = {
     name: string;
     value: string;
   }[];
+  image: Image;
   price: Money;
 };
 

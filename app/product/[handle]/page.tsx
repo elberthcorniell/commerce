@@ -80,23 +80,21 @@ export default async function ProductPage({ params }: { params: { handle: string
         }}
       />
       <div className="mx-auto max-w-screen-2xl px-4">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
-          <div className="h-full w-full basis-full lg:basis-4/6">
+        <div className="grid grid-cols-1 rounded-lg border border-neutral-200 bg-white p-8 md:grid-cols-2 md:gap-8 md:p-12 lg:grid-cols-3">
+          <div className="col-span-1 lg:col-span-2">
             <Suspense
-              fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
-              }
+              fallback={<div className="relative aspect-square h-full w-full overflow-hidden" />}
             >
               <Gallery
                 images={product.images.map((image: Image) => ({
                   src: image.url,
                   altText: image.altText
                 }))}
+                variants={product.variants}
               />
             </Suspense>
           </div>
-
-          <div className="basis-full lg:basis-2/6">
+          <div>
             <ProductDescription product={product} />
           </div>
         </div>
@@ -114,7 +112,7 @@ async function RelatedProducts({ id }: { id: string }) {
 
   return (
     <div className="py-8">
-      <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
+      <h2 className="mb-4 text-2xl font-bold">Productos Relacionados</h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (
           <li
