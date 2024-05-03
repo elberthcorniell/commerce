@@ -9,8 +9,12 @@ export function ProductDescription({ product }: { product: Product }) {
     <div className=" flex flex-col">
       <div className="mb-6 flex flex-col border-b pb-6 ">
         <h1 className="mb-2 text-5xl font-medium">{product.title}</h1>
-        <div className="mr-auto w-auto rounded-full bg-blue-600 p-2 text-sm text-white">
+        <h3 className="my-2 line-clamp-2 flex-grow text-left text-sm font-thin uppercase leading-none tracking-tight ">
+          Sovereign
+        </h3>
+        <div className="mr-auto w-auto rounded-full">
           <Price
+            className="flex-none rounded-full text-base font-bold"
             amount={product.priceRange.maxVariantPrice.amount}
             currencyCode={product.priceRange.maxVariantPrice.currencyCode}
           />
@@ -20,7 +24,9 @@ export function ProductDescription({ product }: { product: Product }) {
         <VariantSelector options={product.options} variants={product.variants} />
       </Suspense>
 
-      <p className="mb-6 whitespace-pre-line text-sm leading-tight">{product.description}</p>
+      <p className="mb-6 whitespace-pre-line text-base font-thin leading-7">
+        {product.description}
+      </p>
 
       <Suspense fallback={null}>
         <AddToCart variants={product.variants} availableForSale={product.availableForSale} />

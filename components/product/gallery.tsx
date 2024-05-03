@@ -43,7 +43,7 @@ export function Gallery({
   const previousUrl = createUrl(pathname, previousSearchParams);
 
   const buttonClassName =
-    'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black justify-center';
+    'h-full flex items-center px-6 transition-all ease-in-out hover:scale-110 hover:text-black justify-center';
 
   return (
     <div>
@@ -84,7 +84,7 @@ export function Gallery({
       </div>
 
       {filteredImages.length > 1 ? (
-        <ul className="my-12 flex items-center justify-center gap-2 overflow-auto py-1 lg:mb-0">
+        <ul className="mb-12 mt-2 flex items-center justify-center gap-2 overflow-auto py-1 lg:mb-0">
           {filteredImages.map((image, index) => {
             const isActive = index === imageIndex;
             const imageSearchParams = new URLSearchParams(searchParams.toString());
@@ -93,20 +93,16 @@ export function Gallery({
 
             return (
               <li key={image.src} className="h-20 w-20 flex-shrink-0">
-                <Link
-                  aria-label="Enlarge product image"
+                <GridTileImage
                   href={createUrl(pathname, imageSearchParams)}
-                  scroll={false}
-                  className="h-full w-full"
-                >
-                  <GridTileImage
-                    alt={image.altText}
-                    src={image.src}
-                    width={80}
-                    height={80}
-                    active={isActive}
-                  />
-                </Link>
+                  className="rounded-none !p-0"
+                  productHandle={''}
+                  alt={image.altText}
+                  src={image.src}
+                  width={80}
+                  height={80}
+                  active={isActive}
+                />
               </li>
             );
           })}
