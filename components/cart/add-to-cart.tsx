@@ -29,7 +29,7 @@ function SubmitButton({
   if (!availableForSale) {
     return (
       <button aria-disabled className={clsx(buttonClasses, disabledClasses)}>
-        Out Of Stock
+        No disponible en este color
       </button>
     );
   }
@@ -102,6 +102,8 @@ export function AddToCart({
     checkout: true
   });
 
+  const finalIsAvailableForSale = variant?.availableForSale ?? availableForSale;
+
   return (
     <div>
       <p aria-live="polite" className="sr-only" role="status">
@@ -109,21 +111,29 @@ export function AddToCart({
       </p>
       <form
         action={actionWithVariant}
-        className=" fixed bottom-14 left-0 z-30 h-fit w-screen md:relative md:bottom-2 md:w-auto"
-      >
-        <SubmitButton availableForSale={availableForSale} selectedVariantId={selectedVariantId} />
-      </form>
-      <form
-        action={actionWithVariantAndCheckout}
-        className=" fixed bottom-0 left-0 z-30 h-fit w-screen md:relative md:w-auto"
+        className={clsx(' fixed left-0 z-30 h-fit w-screen md:relative md:bottom-2 md:w-auto', {
+          'bottom-0': !finalIsAvailableForSale,
+          'bottom-14': finalIsAvailableForSale
+        })}
       >
         <SubmitButton
-          availableForSale={availableForSale}
+          availableForSale={finalIsAvailableForSale}
           selectedVariantId={selectedVariantId}
-          cta="Comprar ahora"
-          className=" !bg-white !text-black md:!bg-black md:!text-white "
         />
       </form>
+      {finalIsAvailableForSale && (
+        <form
+          action={actionWithVariantAndCheckout}
+          className=" fixed bottom-0 left-0 z-30 h-fit w-screen md:relative md:w-auto"
+        >
+          <SubmitButton
+            availableForSale={finalIsAvailableForSale}
+            selectedVariantId={selectedVariantId}
+            cta="Comprar ahora"
+            className=" !bg-white !text-black md:!bg-black md:!text-white "
+          />
+        </form>
+      )}
     </div>
   );
 }

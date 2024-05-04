@@ -80,26 +80,27 @@ export function VariantSelector({
           return (
             <button
               key={value}
-              aria-disabled={!isAvailableForSale}
-              disabled={!isAvailableForSale}
+              // aria-disabled={!isAvailableForSale}
+              // disabled={!isAvailableForSale}
               onClick={() => {
                 router.replace(optionUrl, { scroll: false });
               }}
-              title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-              className={clsx('ext-sm flex min-w-[48px] items-center justify-center ', {
-                't rounded-full border bg-neutral-100  px-2 py-1': !varaintImage,
+              title={`${option.name} ${value}${!isAvailableForSale ? ' (No disponible en este color)' : ''}`}
+              className={clsx('ext-sm relative flex h-10 w-10 items-center justify-center ', {
+                'rounded-full border bg-neutral-100 ': !varaintImage,
                 'cursor-default ring-2 ring-blue-600': isActive,
                 'ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110 hover:ring-blue-600 ':
-                  !isActive && isAvailableForSale,
-                'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform':
-                  !isAvailableForSale
+                  !isActive && isAvailableForSale
               })}
             >
-              {varaintImage ? (
-                <Image alt={value} width={40} height={40} src={varaintImage} />
-              ) : (
-                value
+              {!isAvailableForSale && (
+                <div
+                  className={
+                    'relative z-10 -rotate-45 cursor-not-allowed overflow-hidden bg-black text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-black before:transition-transform'
+                  }
+                />
               )}
+              {varaintImage ? <Image alt={value} fill src={varaintImage} /> : value}
             </button>
           );
         })}

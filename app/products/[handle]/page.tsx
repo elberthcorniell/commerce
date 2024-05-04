@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { GridTileImage } from 'components/grid/tile';
+import { Container } from 'components/layout/container';
 import Footer from 'components/layout/footer';
 import { Gallery } from 'components/product/gallery';
 import { ProductDescription } from 'components/product/product-description';
@@ -78,8 +79,8 @@ export default async function ProductPage({ params }: { params: { handle: string
           __html: JSON.stringify(productJsonLd)
         }}
       />
-      <div className="mx-auto max-w-screen-2xl px-4">
-        <div className="grid grid-cols-1 rounded-lg border border-neutral-200 bg-white p-8 md:grid-cols-2 md:gap-8 md:p-12 lg:grid-cols-3">
+      <Container>
+        <div className="grid grid-cols-1 rounded-lg md:grid-cols-2 md:gap-8 md:p-12 lg:grid-cols-3">
           <div className="col-span-1 lg:col-span-2">
             <Suspense
               fallback={<div className="relative aspect-square h-full w-full overflow-hidden" />}
@@ -98,7 +99,7 @@ export default async function ProductPage({ params }: { params: { handle: string
           </div>
         </div>
         <RelatedProducts id={product.id} />
-      </div>
+      </Container>
       <Footer />
     </>
   );
