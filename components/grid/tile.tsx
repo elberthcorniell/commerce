@@ -62,7 +62,7 @@ export function GridTileImage({
           })}
         >
           {variants && variants.length > 0 ? (
-            <p className="absolute bottom-0 left-0 z-10 bg-white p-1 text-xs font-semibold text-black">
+            <p className="absolute bottom-0 left-0 z-10 bg-white p-1 text-xs font-thin text-black">
               {variants.length} {variants.length > 1 ? 'colores' : 'color'}
             </p>
           ) : null}
