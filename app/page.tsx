@@ -16,7 +16,7 @@ export default async function HomePage() {
 
   return (
     <Container>
-      <Grid className=" grid w-full grid-cols-2 gap-0 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+      <Grid className=" grid w-full grid-cols-2 gap-y-16 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
         <ProductGridItems products={products} />
       </Grid>
       <Footer />

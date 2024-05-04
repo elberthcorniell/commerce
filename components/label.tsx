@@ -17,7 +17,7 @@ const Label = ({
       })}
     >
       <div className="flex flex-col items-center justify-center gap-3 text-xs font-semibold text-black backdrop-blur-md ">
-        <h3 className="line-clamp-2 flex-grow text-center text-sm uppercase leading-none tracking-tight ">
+        <h3 className="line-clamp-1 flex-grow text-center text-sm uppercase leading-none tracking-tight ">
           {title}
         </h3>
         <h3 className="line-clamp-2 flex-grow text-center text-sm font-thin uppercase leading-none tracking-tight ">

@@ -66,7 +66,7 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
           >
             <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl md:w-[390px]">
               <div className="flex items-center justify-between">
-                <p className="text-lg font-semibold">My Cart</p>
+                <p className="text-lg font-semibold">Mi carrito</p>
 
                 <button aria-label="Close cart" onClick={closeCart}>
                   <CloseCart />
@@ -76,7 +76,7 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
               {!cart || cart.lines.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
                   <ShoppingCartIcon className="h-16" />
-                  <p className="mt-6 text-center text-2xl font-bold">Your cart is empty.</p>
+                  <p className="mt-6 text-center text-2xl font-bold">Tu carrito está vacio.</p>
                 </div>
               ) : (
                 <div className="flex h-full flex-col justify-between overflow-hidden p-1">
@@ -90,6 +90,7 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                           merchandiseSearchParams[name.toLowerCase()] = value;
                           // @ts-expect-error
                           const variantImage = item.merchandise.product.variants.edges.find(
+                            // @ts-expect-error
                             (v) => v.node.title === value
                           ).node.image.url;
                           if (variantImage) {
@@ -114,9 +115,9 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                               onClick={closeCart}
                               className="z-30 flex flex-row space-x-4"
                             >
-                              <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300">
+                              <div className="relative h-16 w-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300">
                                 <Image
-                                  className="h-full w-full object-cover"
+                                  className=" -mr-2 h-full w-full flex-shrink-0 object-cover"
                                   width={64}
                                   height={64}
                                   alt={
@@ -159,7 +160,7 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                   </ul>
                   <div className="py-4 text-sm text-neutral-500">
                     <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1">
-                      <p>Taxes</p>
+                      <p>Impuestos</p>
                       <Price
                         className="text-right text-base text-black"
                         amount={cart.cost.totalTaxAmount.amount}
@@ -167,8 +168,8 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                       />
                     </div>
                     <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1">
-                      <p>Shipping</p>
-                      <p className="text-right">Calculated at checkout</p>
+                      <p>Envio</p>
+                      <p className="text-right">Calculado antes del pago</p>
                     </div>
                     <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1">
                       <p>Total</p>
@@ -181,9 +182,9 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                   </div>
                   <a
                     href={cart.checkoutUrl}
-                    className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
+                    className="block w-full bg-black p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
                   >
-                    Proceed to Checkout
+                    Proceder al pago
                   </a>
                 </div>
               )}

@@ -1,6 +1,6 @@
 'use client';
 
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { addItem } from 'components/cart/actions';
 import LoadingDots from 'components/loading-dots';
@@ -10,15 +10,21 @@ import { useFormState, useFormStatus } from 'react-dom';
 
 function SubmitButton({
   availableForSale,
-  selectedVariantId
+  selectedVariantId,
+  className,
+  cta
 }: {
   availableForSale: boolean;
   selectedVariantId: string | undefined;
+  className?: string;
+  cta?: string;
 }) {
   const { pending } = useFormStatus();
-  const buttonClasses =
-    'relative flex w-full items-center justify-center bg-black p-4 tracking-wide text-white';
-  const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60';
+  const buttonClasses = clsx(
+    'relative flex w-full items-center justify-center bg-black p-4 tracking-wide text-white  ',
+    className
+  );
+  const disabledClasses = 'cursor-not-allowed !text-opacity-50 hover:!text-opacity-50 ';
 
   if (!availableForSale) {
     return (
@@ -38,7 +44,7 @@ function SubmitButton({
         <div className="absolute left-0 ml-4">
           <PlusIcon className="h-5" />
         </div>
-        Agregar al carrito
+        {cta || 'Agregar al carrito'}
       </button>
     );
   }
@@ -48,17 +54,28 @@ function SubmitButton({
       onClick={(e: React.FormEvent<HTMLButtonElement>) => {
         if (pending) e.preventDefault();
       }}
-      aria-label="Agregar al carrito"
+      aria-label={cta || 'Agregar al carrito'}
       aria-disabled={pending}
       className={clsx(buttonClasses, {
         'hover:opacity-90': true,
-        disabledClasses: pending
+        [disabledClasses]: pending
       })}
     >
       <div className="absolute left-0 ml-4">
-        {pending ? <LoadingDots className="mb-3 bg-white" /> : <PlusIcon className="h-5" />}
+        {pending ? (
+          <LoadingDots
+            className={clsx('mb-3', {
+              'bg-white': !className?.includes('text-black'),
+              'bg-black': className?.includes('text-black')
+            })}
+          />
+        ) : cta ? (
+          <CheckIcon className="h-5" />
+        ) : (
+          <PlusIcon className="h-5" />
+        )}
       </div>
-      Agregar al carrito
+      {cta || 'Agregar al carrito'}
     </button>
   );
 }
@@ -79,14 +96,34 @@ export function AddToCart({
     )
   );
   const selectedVariantId = variant?.id || defaultVariantId;
-  const actionWithVariant = formAction.bind(null, selectedVariantId);
+  const actionWithVariant = formAction.bind(null, { selectedVariantId });
+  const actionWithVariantAndCheckout = formAction.bind(null, {
+    selectedVariantId,
+    checkout: true
+  });
 
   return (
-    <form action={actionWithVariant}>
-      <SubmitButton availableForSale={availableForSale} selectedVariantId={selectedVariantId} />
+    <div>
       <p aria-live="polite" className="sr-only" role="status">
         {message}
       </p>
-    </form>
+      <form
+        action={actionWithVariant}
+        className=" fixed bottom-14 left-0 z-30 h-fit w-screen md:relative md:bottom-2 md:w-auto"
+      >
+        <SubmitButton availableForSale={availableForSale} selectedVariantId={selectedVariantId} />
+      </form>
+      <form
+        action={actionWithVariantAndCheckout}
+        className=" fixed bottom-0 left-0 z-30 h-fit w-screen md:relative md:w-auto"
+      >
+        <SubmitButton
+          availableForSale={availableForSale}
+          selectedVariantId={selectedVariantId}
+          cta="Comprar ahora"
+          className=" !bg-white !text-black md:!bg-black md:!text-white "
+        />
+      </form>
+    </div>
   );
 }
