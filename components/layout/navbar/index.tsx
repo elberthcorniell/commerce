@@ -5,8 +5,8 @@ import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import FloatingSearch from './floating-search';
 import MobileMenu from './mobile-menu';
-import Search, { SearchSkeleton } from './search';
 
 export default async function Navbar() {
   const menu = await getMenu('next-js-frontend-header-menu');
@@ -19,8 +19,12 @@ export default async function Navbar() {
         </Suspense>
       </div>
       <div className="flex w-full items-center">
+        <div className="hidden justify-center md:flex md:w-1/3"></div>
         <div className="flex w-full md:w-1/3">
-          <Link href="/" className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6">
+          <Link
+            href="/"
+            className="mr-2 flex w-full items-center justify-center md:!mx-auto md:w-auto lg:mr-6"
+          >
             <Logo height={45} />
           </Link>
           {menu.length ? (
@@ -38,12 +42,10 @@ export default async function Navbar() {
             </ul>
           ) : null}
         </div>
-        <div className="hidden justify-center md:flex md:w-1/3">
-          <Suspense fallback={<SearchSkeleton />}>
-            <Search />
-          </Suspense>
-        </div>
         <div className="flex justify-end md:w-1/3">
+          <div className=" mr-2 hidden h-full md:block">
+            <FloatingSearch />
+          </div>
           <Suspense fallback={<OpenCart />}>
             <Cart />
           </Suspense>

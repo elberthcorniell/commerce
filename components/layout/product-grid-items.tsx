@@ -6,7 +6,7 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
   return (
     <>
       {products.map((product) => (
-        <Grid.Item key={product.handle} className="!aspect-auto animate-fadeIn">
+        <Grid.Item key={product.id} className="!aspect-auto animate-fadeIn">
           <GridTileImage
             alt={product.title}
             productHandle={product.handle}

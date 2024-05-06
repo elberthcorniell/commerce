@@ -11,7 +11,9 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
         <div className=" relative grid grid-cols-1 gap-4 md:grid-cols-[200px_1fr]">
           <div className="sticky order-first w-full">
             <Collections />
-            <FilterList list={sorting} title="Sort by" />
+            <div className=" mt-2 md:mt-10">
+              <FilterList list={sorting} title="Ordenar por" />
+            </div>
           </div>
           <div className="order-last min-h-screen w-full md:order-none">{children}</div>
         </div>

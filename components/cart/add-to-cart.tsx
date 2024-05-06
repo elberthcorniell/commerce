@@ -21,7 +21,7 @@ function SubmitButton({
 }) {
   const { pending } = useFormStatus();
   const buttonClasses = clsx(
-    'relative flex w-full items-center justify-center bg-black p-4 tracking-wide text-white  ',
+    'relative flex w-full items-center justify-center bg-black p-4 tracking-wide text-white md:z-10 z-30',
     className
   );
   const disabledClasses = 'cursor-not-allowed !text-opacity-50 hover:!text-opacity-50 ';
@@ -111,7 +111,7 @@ export function AddToCart({
       </p>
       <form
         action={actionWithVariant}
-        className={clsx(' fixed left-0 z-30 h-fit w-screen md:relative md:bottom-2 md:w-auto', {
+        className={clsx(' fixed left-0 h-fit w-screen md:relative md:bottom-2 md:w-auto', {
           'bottom-0': !finalIsAvailableForSale,
           'bottom-14': finalIsAvailableForSale
         })}
@@ -124,7 +124,7 @@ export function AddToCart({
       {finalIsAvailableForSale && (
         <form
           action={actionWithVariantAndCheckout}
-          className=" fixed bottom-0 left-0 z-30 h-fit w-screen md:relative md:w-auto"
+          className=" fixed bottom-0 left-0 h-fit w-screen md:relative md:w-auto"
         >
           <SubmitButton
             availableForSale={finalIsAvailableForSale}
