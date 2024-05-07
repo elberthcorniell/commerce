@@ -5,9 +5,10 @@ import ProductGridItems from 'components/layout/product-grid-items';
 import { getCollectionProducts } from 'lib/shopify';
 
 export const metadata = {
-  description: 'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+  description: 'Lentes de sol de alta calidad',
   openGraph: {
-    type: 'website'
+    type: 'website',
+    images: ['/og-image.jpg']
   }
 };
 
