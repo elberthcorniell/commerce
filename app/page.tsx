@@ -8,7 +8,7 @@ export const metadata = {
   description: 'Lentes de sol de alta calidad',
   openGraph: {
     type: 'website',
-    images: ['/og-image.jpg']
+    images: ['https://new.sovereignshades.com/og-image.jpg']
   }
 };
 
