@@ -34,6 +34,10 @@ export const metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={GeistSans.variable}>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      />
       <body className="bg-white text-black selection:bg-teal-300">
         <Navbar />
         <main>{children}</main>
