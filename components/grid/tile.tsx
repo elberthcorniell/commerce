@@ -91,7 +91,7 @@ export function GridTileImage({
             />
           ) : null}
         </div>
-        <div className=" z-20 flex h-[58px] flex-shrink-0 flex-row items-center gap-1 overflow-x-auto overflow-y-hidden bg-white py-2 transition-all duration-300 md:-mt-[58px] md:opacity-0 md:group-hover:opacity-100 ">
+        <div className=" z-20 flex h-[58px] flex-shrink-0 flex-row gap-1 overflow-x-auto overflow-y-hidden bg-white py-2 transition-all duration-300 md:-mb-[58px] md:opacity-0 md:group-hover:opacity-100 ">
           {variants?.map((_variant) => (
             <button
               className={clsx(' h-12 w-12 flex-shrink-0  ', {
