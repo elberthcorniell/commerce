@@ -130,7 +130,7 @@ export function AddToCart({
             availableForSale={finalIsAvailableForSale}
             selectedVariantId={selectedVariantId}
             cta="Comprar ahora"
-            className=" !bg-white !text-black md:!bg-black md:!text-white "
+            className=" !bg-white !text-black md:border-2 md:border-black "
           />
         </form>
       )}
