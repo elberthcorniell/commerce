@@ -7,6 +7,31 @@ import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+async function getCartIdAndCart(
+  { replace, createNew } = {
+    replace: true,
+    createNew: false
+  }
+) {
+  let cartId = cookies().get('cartId')?.value;
+  let cart;
+
+  if (cartId && !createNew) {
+    cart = await getCart(cartId);
+  }
+
+  if (!cartId || !cart) {
+    cart = await createCart();
+    cartId = cart.id;
+    if (replace) cookies().set('cartId', cartId);
+  }
+
+  return {
+    cartId,
+    cart
+  };
+}
+
 export async function addItem(
   prevState: any,
   formData: {
@@ -14,18 +39,10 @@ export async function addItem(
     checkout?: boolean;
   }
 ) {
-  let cartId = cookies().get('cartId')?.value;
-  let cart;
-
-  if (cartId) {
-    cart = await getCart(cartId);
-  }
-
-  if (!cartId || !cart) {
-    cart = await createCart();
-    cartId = cart.id;
-    cookies().set('cartId', cartId);
-  }
+  const { cartId } = await getCartIdAndCart({
+    replace: !formData.checkout,
+    createNew: !!formData.checkout
+  });
 
   if (!formData.selectedVariantId) {
     return 'Missing product variant ID';
@@ -33,12 +50,11 @@ export async function addItem(
 
   try {
     await addToCart(cartId, [{ merchandiseId: formData.selectedVariantId, quantity: 1 }]);
-    console.log(formData);
     if (!formData.checkout) revalidateTag(TAGS.cart);
   } catch (e) {
     return 'Error adding item to cart';
   }
-  if (formData.checkout) await checkout();
+  if (formData.checkout) await checkout(cartId);
 }
 
 export async function removeItem(prevState: any, lineId: string) {
@@ -92,8 +108,8 @@ export async function updateItemQuantity(
   }
 }
 
-export async function checkout() {
-  const cartId = cookies().get('cartId')?.value;
+export async function checkout(_cartId?: string) {
+  const cartId = _cartId || cookies().get('cartId')?.value;
 
   if (!cartId) {
     return 'Missing cart ID';
