@@ -7,7 +7,9 @@ const CollectionsPage = ({
   params: { collection: string };
   searchParams?: { [key: string]: string };
 }) => {
-  redirect(`/search/${params.collection}?${new URLSearchParams(searchParams || {}).toString()}`);
+  redirect(
+    `/search/${params.collection === 'all' ? '' : params.collection}?${new URLSearchParams(searchParams || {}).toString()}`
+  );
 };
 
 export default CollectionsPage;
