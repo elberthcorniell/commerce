@@ -53,8 +53,8 @@ export default async function Navbar() {
           </div>
         </div>
       </nav>
-      <div className=" w-screen bg-black px-4 py-2 ">
-        <p className=" w-full text-center text-sm font-bold uppercase text-white">
+      <div className=" mb-4 w-screen bg-black px-4 py-2 ">
+        <p className=" w-full text-center text-[12px] font-bold uppercase text-white">
           Envío a toda la República Dominicana 🇩🇴
         </p>
       </div>

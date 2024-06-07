@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import Label from '../label';
 
 export function GridTileImage({
+  tryDefaultVariant,
   isInteractive = true,
   active,
   label,
@@ -16,6 +17,7 @@ export function GridTileImage({
   className,
   ...props
 }: {
+  tryDefaultVariant?: string;
   isInteractive?: boolean;
   active?: boolean;
   productHandle: string;
@@ -30,21 +32,36 @@ export function GridTileImage({
   variants?: ProductVariant[];
   hoverSrc?: string;
 } & React.ComponentProps<typeof Image>) {
-  const [activeImage, setActiveImage] = useState(variants?.[0]?.image.url || props.src);
-  const [variant, setVariant] = useState(variants?.[0]?.title || '');
+  const random = useRef(Math.floor(Math.random() * (variants?.length || 0)));
+  const index = useRef(
+    tryDefaultVariant
+      ? variants?.findIndex((variant) =>
+          variant.title.toLocaleLowerCase().includes(tryDefaultVariant.toLocaleLowerCase() || '')
+        ) ?? random.current
+      : random.current
+  );
+  const [activeImage, setActiveImage] = useState(() => {
+    return variants?.[index.current]?.image.url || props.src;
+  });
+  const [variant, setVariant] = useState(variants?.[index.current]?.title || '');
   const selectionRef = useRef(false);
   const containerStyle = props.fill ? { paddingBottom: '100%' } : {};
   const isDefaultVariant = variant === variants?.[0]?.title;
 
   useEffect(() => {
-    setActiveImage(variants?.[0]?.image.url || props.src);
-    setVariant(variants?.[0]?.title || '');
+    setActiveImage(variants?.[index.current]?.image.url || props.src);
+    setVariant(variants?.[index.current]?.title || '');
   }, [productHandle, variants, props.src]);
 
   return (
     <Link
       className="relative h-full w-full"
-      href={href || `/products/${productHandle}?color=${variant}`}
+      href={
+        href ||
+        `/products/${productHandle}?${new URLSearchParams({
+          color: variant || ''
+        })}`
+      }
       onClick={(e) => {
         if (selectionRef.current) {
           e.preventDefault();

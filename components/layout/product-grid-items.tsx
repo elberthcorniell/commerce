@@ -2,12 +2,23 @@ import Grid from 'components/grid';
 import { GridTileImage } from 'components/grid/tile';
 import { Product } from 'lib/shopify/types';
 
-export default function ProductGridItems({ products }: { products: Product[] }) {
+export default function ProductGridItems({
+  products,
+  tryDefaultVariant
+}: {
+  products: Product[];
+  tryDefaultVariant?: string;
+}) {
   return (
     <>
       {products.map((product) => (
-        <Grid.Item key={product.id} className="!aspect-auto animate-fadeIn">
+        <Grid.Item
+          key={`${product.id}-${tryDefaultVariant || 'random-variant'}`}
+          className="!aspect-auto animate-fadeIn"
+        >
           <GridTileImage
+            key={`tile-${product.id}-${tryDefaultVariant || 'random-variant'}`}
+            tryDefaultVariant={tryDefaultVariant}
             alt={product.title}
             productHandle={product.handle}
             label={{

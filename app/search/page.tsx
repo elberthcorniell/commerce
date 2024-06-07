@@ -20,6 +20,16 @@ export default async function SearchPage({
   const products = await getProducts({ sortKey, reverse, query: searchValue });
   const resultsText = products.length > 1 ? 'resultados' : 'resultado';
 
+  const filteredProducts = products.filter(
+    (product) =>
+      product.title.toLowerCase().includes(searchValue?.toLowerCase() || '') ||
+      product.variants.some((variant) =>
+        variant.title.toLowerCase().includes(searchValue?.toLowerCase() || '')
+      )
+  );
+
+  const remainingProducts = products.filter((product) => !filteredProducts.includes(product));
+
   return (
     <>
       <TopSearch />
@@ -27,13 +37,24 @@ export default async function SearchPage({
         <p className="mb-4">
           {products.length === 0
             ? 'No hay resultados para la busqueda. '
-            : `Mostrando ${products.length} ${resultsText} para `}
+            : `Mostrando ${filteredProducts.length} ${resultsText} para `}
           <span className="font-bold">&quot;{searchValue}&quot;</span>
         </p>
       ) : null}
-      {products.length > 0 ? (
+      {filteredProducts.length > 0 ? (
         <Grid className="grid-cols-2 sm:grid-cols-2 lg:grid-cols-3">
-          <ProductGridItems products={products} />
+          <ProductGridItems products={filteredProducts} tryDefaultVariant={searchValue} />
+        </Grid>
+      ) : null}
+      {remainingProducts.length ? (
+        <p className="mb-4 mt-10">
+          {'Otros resultados para '}
+          <span className="font-bold">&quot;{searchValue}&quot;</span>
+        </p>
+      ) : null}
+      {remainingProducts.length > 0 ? (
+        <Grid className="grid-cols-2 sm:grid-cols-2 lg:grid-cols-3">
+          <ProductGridItems products={remainingProducts} />
         </Grid>
       ) : null}
     </>
