@@ -29,3 +29,7 @@ export const TAGS = {
 export const HIDDEN_PRODUCT_TAG = 'nextjs-frontend-hidden';
 export const DEFAULT_OPTION = 'Default Title';
 export const SHOPIFY_GRAPHQL_API_ENDPOINT = '/api/2023-01/graphql.json';
+
+export const IMAGE_FILTER = {
+  filter: '  brightness(1.03) contrast(1.03) '
+};

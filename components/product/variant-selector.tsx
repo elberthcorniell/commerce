@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { IMAGE_FILTER } from 'lib/constants';
 import { ProductOption, ProductVariant } from 'lib/shopify/types';
 import { createUrl } from 'lib/utils';
 import Image from 'next/image';
@@ -87,7 +88,7 @@ export function VariantSelector({
                 router.replace(optionUrl, { scroll: false });
               }}
               title={`${option.name} ${value}${!isAvailableForSale ? ' (No disponible en este color)' : ''}`}
-              className={clsx('ext-sm relative flex h-10 w-10 items-center justify-center ', {
+              className={clsx('ext-sm relative flex h-20 w-20 items-center justify-center ', {
                 'rounded-full border bg-neutral-100 ': !varaintImage,
                 'cursor-default ring-2 ring-blue-600': isActive,
                 'ring-1 ring-transparent transition duration-300 ease-in-out hover:scale-110 hover:ring-blue-600 ':
@@ -101,7 +102,11 @@ export function VariantSelector({
                   }
                 />
               )}
-              {varaintImage ? <Image alt={value} fill src={varaintImage} /> : value}
+              {varaintImage ? (
+                <Image alt={value} fill src={varaintImage} style={IMAGE_FILTER} />
+              ) : (
+                value
+              )}
             </button>
           );
         })}

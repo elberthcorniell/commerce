@@ -1,5 +1,6 @@
 'use client';
 import clsx from 'clsx';
+import { IMAGE_FILTER } from 'lib/constants';
 import { ProductVariant } from 'lib/shopify/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -71,7 +72,7 @@ export function GridTileImage({
     >
       <div
         className={clsx(
-          ' group flex h-full w-full flex-col overflow-hidden bg-white p-0 hover:border-blue-600 md:p-4',
+          ' group flex h-full w-full flex-col overflow-hidden bg-white px-0 py-4 hover:border-blue-600 ',
           className
         )}
       >
@@ -86,10 +87,13 @@ export function GridTileImage({
           {props.src ? (
             // eslint-disable-next-line jsx-a11y/alt-text -- `alt` is inherited from `props`, which is being enforced with TypeScript
             <Image
-              className={clsx('aspect-square h-full w-full object-cover', {
+              className={clsx('aspect-square h-full w-full object-cover ', {
                 'transition duration-300 ease-in-out': isInteractive
                 // 'group-hover:opacity-0': !!props.hoverSrc
               })}
+              style={{
+                ...IMAGE_FILTER
+              }}
               {...props}
               src={activeImage}
             />
@@ -103,15 +107,18 @@ export function GridTileImage({
                   'transition duration-300 ease-in-out': isInteractive
                 }
               )}
+              style={{
+                ...IMAGE_FILTER
+              }}
               {...props}
               src={props.hoverSrc}
             />
           ) : null}
         </div>
-        <div className=" z-10 flex h-[58px] flex-shrink-0 flex-row gap-1 overflow-x-auto overflow-y-hidden bg-white py-2 transition-all duration-300 md:-mb-[58px] md:opacity-0 md:group-hover:opacity-100 ">
+        <div className=" z-10 flex h-[74px] flex-shrink-0 flex-row gap-1 overflow-x-auto overflow-y-hidden bg-white py-2 transition-all duration-300 md:-mb-[58px] md:opacity-0 md:group-hover:opacity-100 ">
           {variants?.map((_variant) => (
             <button
-              className={clsx(' h-12 w-12 flex-shrink-0  ', {
+              className={clsx(' h-16 w-16 flex-shrink-0  ', {
                 'border-2 border-blue-600': _variant.title === variant,
                 'border-neutral-200': _variant.title !== variant
               })}
@@ -123,8 +130,11 @@ export function GridTileImage({
               key={_variant.id}
             >
               <Image
-                width={48}
-                height={48}
+                width={64}
+                height={64}
+                style={{
+                  ...IMAGE_FILTER
+                }}
                 src={_variant.image?.url}
                 alt={_variant.image?.altText}
               />

@@ -1,12 +1,9 @@
 'use client';
 
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
-import { GridTileImage } from 'components/grid/tile';
+import clsx from 'clsx';
 import { ProductVariant } from 'lib/shopify/types';
-import { createUrl } from 'lib/utils';
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 export function Gallery({
   images,
@@ -15,7 +12,6 @@ export function Gallery({
   images: { src: string; altText: string }[];
   variants: ProductVariant[];
 }) {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const imageSearchParam = searchParams.get('image');
   const colorVariant = searchParams.get('color') || variants[0]?.selectedOptions[0]?.value;
@@ -35,30 +31,34 @@ export function Gallery({
   const nextSearchParams = new URLSearchParams(searchParams.toString());
   const nextImageIndex = imageIndex + 1 < images.length ? imageIndex + 1 : 0;
   nextSearchParams.set('image', nextImageIndex.toString());
-  const nextUrl = createUrl(pathname, nextSearchParams);
 
   const previousSearchParams = new URLSearchParams(searchParams.toString());
   const previousImageIndex = imageIndex === 0 ? images.length - 1 : imageIndex - 1;
   previousSearchParams.set('image', previousImageIndex.toString());
-  const previousUrl = createUrl(pathname, previousSearchParams);
-
-  const buttonClassName =
-    'h-full flex items-center px-6 transition-all ease-in-out hover:scale-110 hover:text-black justify-center';
 
   return (
-    <div>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
-        {filteredImages[imageIndex] && (
+    <div className="grid h-fit w-full grid-cols-2 gap-2 ">
+      {filteredImages.map((image, i) => (
+        <div
+          className={clsx(' relative aspect-square ', {
+            'col-span-2 row-span-2': i === 0
+          })}
+          key={image.src}
+        >
           <Image
-            className="h-full w-full object-contain"
+            style={{
+              filter: '  brightness(1.05) contrast(1.05) '
+            }}
+            className="aspect-square h-full w-full"
             fill
-            sizes="(min-width: 1024px) 66vw, 100vw"
-            alt={filteredImages[imageIndex]?.altText as string}
-            src={filteredImages[imageIndex]?.src as string}
+            // sizes="(min-width: 1024px) 66vw, 100vw"
+            alt={image.altText as string}
+            src={image.src as string}
             priority={true}
           />
-        )}
-        {filteredImages.length > 1 ? (
+        </div>
+      ))}
+      {/* {filteredImages.length > 1 ? (
           <div className="absolute bottom-[15%] flex w-full flex-wrap justify-center">
             <div className="mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur ">
               <Link
@@ -80,10 +80,10 @@ export function Gallery({
               </Link>
             </div>
           </div>
-        ) : null}
-      </div>
+        ) : null} */}
+    </div>
 
-      {filteredImages.length > 1 ? (
+    /* {filteredImages.length > 1 ? (
         <ul className="mb-12 mt-2 flex items-center justify-center gap-2 overflow-auto py-1 lg:mb-0">
           {filteredImages.map((image, index) => {
             const isActive = index === imageIndex;
@@ -107,7 +107,6 @@ export function Gallery({
             );
           })}
         </ul>
-      ) : null}
-    </div>
+      ) : null} */
   );
 }
