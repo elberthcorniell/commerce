@@ -22,13 +22,16 @@
     "*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@bitnation-dev/management": "^1.7.0",
+    "@bitnation-dev/service": "^1.0.6",
     "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.1.3",
     "clsx": "^2.1.0",
     "geist": "^1.3.0",
     "next": "14.2.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@tailwindcss/container-queries": "^0.1.1",
