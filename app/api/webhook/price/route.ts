@@ -7,6 +7,7 @@ type Payment = typeof SAMPLE_PAYMENT;
 export async function POST(req: NextRequest): Promise<NextResponse> {
   if (!req.body) return NextResponse.json({ status: 200 });
   const Payment = (await req.json()) as Payment;
+  console.log(Payment);
   try {
     Gestiono.errorHandler = (e) => {
       return e.response.data;
